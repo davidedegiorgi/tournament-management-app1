@@ -1,0 +1,73 @@
+/* React Flow styles specifici per il tabellone UEFA */
+.tournament-bracket-flow {
+  background: transparent !important;
+}
+
+.tournament-bracket-flow .react-flow__node {
+  cursor: pointer;
+}
+
+.tournament-bracket-flow .react-flow__node.selectable:hover {
+  box-shadow: 0 0 0 2px #00C8FF;
+}
+
+.tournament-bracket-flow .react-flow__edge-path {
+  stroke: #00C8FF;
+  stroke-width: 2;
+}
+
+.tournament-bracket-flow .react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+.tournament-bracket-flow .react-flow__edge.winner .react-flow__edge-path {
+  stroke: #00C8FF;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 4px #00C8FF);
+}
+
+@keyframes dashdraw {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* Controls personalizzati */
+.tournament-bracket-flow .react-flow__controls {
+  background: rgba(27, 58, 143, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  border-radius: 0.5rem;
+}
+
+.tournament-bracket-flow .react-flow__controls-button {
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+.tournament-bracket-flow .react-flow__controls-button:hover {
+  background: rgba(0, 200, 255, 0.2);
+}
+
+.tournament-bracket-flow .react-flow__controls-button svg {
+  fill: white;
+}
+
+/* MiniMap personalizzata */
+.tournament-bracket-flow .react-flow__minimap {
+  background: rgba(27, 58, 143, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  border-radius: 0.5rem;
+}
+
+.tournament-bracket-flow .react-flow__minimap-mask {
+  fill: rgba(0, 200, 255, 0.2);
+}
+
+.tournament-bracket-flow .react-flow__minimap-node {
+  fill: rgba(0, 200, 255, 0.4);
+  stroke: none;
+}
