@@ -18,7 +18,7 @@ Applicazione frontend per la gestione di tornei e squadre, costruita con **React
 
 ---
 
-## 📁 Struttura del progetto
+##  Struttura del progetto
 
 ```
 tournament-management-app1/
@@ -40,7 +40,7 @@ tournament-management-app1/
 
 ---
 
-## ⚙️ Funzionamento del frontend
+##  Funzionamento del frontend
 
 ### Stato e API
 
@@ -74,7 +74,6 @@ tournament-management-app1/
   Crea un file `.env` nella root del progetto:
   ```
   VITE_BACKEND_URL=http://localhost:8000/api
-  BASE_URL=/
   ```
 
 3. **Installa le dipendenze**  

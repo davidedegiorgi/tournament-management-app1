@@ -103,6 +103,19 @@ function FormLabel({
   )
 }
 
+
+export function FormLabelNoError({ className, ...props }: React.ComponentProps<'label'>) {
+  const { formItemId } = useFormField();
+  return (
+    <Label
+      data-slot="form-label"
+      className={cn(className)}
+      htmlFor={formItemId}
+      {...props}
+    />
+  );
+}
+
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 

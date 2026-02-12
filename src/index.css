@@ -65,7 +65,7 @@
     border-color: hsl(var(--border));
   }
   body {
-    background: linear-gradient(135deg, #0E1E5B 0%, #1B3A8F 50%, #0E1E5B 100%);
+    background: hsl(var(--background));
     background-attachment: fixed;
     color: hsl(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;

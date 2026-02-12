@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 import { Shield } from 'lucide-react'
+import { getLogoUrl } from '@/lib/backend'
 import type { Match } from './match.type'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,6 +22,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
+    FormLabelNoError,
 } from '@/components/ui/form'
 
 const matchScoreSchema = z.object({
@@ -83,7 +85,15 @@ export function MatchScoreDialog({ match, open, onOpenChange, onSubmit, isPendin
                                     render={({ field }) => (
                                         <FormItem className="flex-1">
                                             <FormLabel className="flex items-center gap-2">
-                                                <Shield className="size-4" />
+                                                {match?.team1?.logo ? (
+                                                    <img
+                                                        src={getLogoUrl(match.team1.logo)}
+                                                        alt={match.team1.name}
+                                                        className="size-6 rounded object-contain bg-white"
+                                                    />
+                                                ) : (
+                                                    <Shield className="size-4" />
+                                                )}
                                                 {match?.team1?.name || 'Squadra 1'}
                                             </FormLabel>
                                             <FormControl>
@@ -96,7 +106,7 @@ export function MatchScoreDialog({ match, open, onOpenChange, onSubmit, isPendin
                                                     className="text-center text-2xl font-bold h-14"
                                                 />
                                             </FormControl>
-                                            <FormMessage />
+                                            {/* Nessun messaggio di errore sotto il campo */}
                                         </FormItem>
                                     )}
                                 />
@@ -106,10 +116,18 @@ export function MatchScoreDialog({ match, open, onOpenChange, onSubmit, isPendin
                                     name="score2"
                                     render={({ field }) => (
                                         <FormItem className="flex-1">
-                                            <FormLabel className="flex items-center gap-2">
-                                                <Shield className="size-4" />
+                                            <FormLabelNoError className="flex items-center gap-2 text-foreground">
+                                                {match?.team2?.logo ? (
+                                                    <img
+                                                        src={getLogoUrl(match.team2.logo)}
+                                                        alt={match.team2.name}
+                                                        className="size-6 rounded object-contain bg-white"
+                                                    />
+                                                ) : (
+                                                    <Shield className="size-4" />
+                                                )}
                                                 {match?.team2?.name || 'Squadra 2'}
-                                            </FormLabel>
+                                            </FormLabelNoError>
                                             <FormControl>
                                                 <Input
                                                     type="number"
@@ -120,13 +138,21 @@ export function MatchScoreDialog({ match, open, onOpenChange, onSubmit, isPendin
                                                     className="text-center text-2xl font-bold h-14"
                                                 />
                                             </FormControl>
-                                            <FormMessage />
+                                            {/* Nessun messaggio di errore sotto il campo */}
                                         </FormItem>
                                     )}
                                 />
                             </div>
                         </div>
 
+                        {/* Messaggio di errore centrato in caso di pareggio */}
+                            {form.formState.errors.score2?.message === 'I pareggi non sono ammessi' && (
+                                <div className="flex items-center justify-start py-2">
+                                    <span className="text-destructive text-left w-full font-semibold">
+                                        {form.formState.errors.score2.message}
+                                    </span>
+                                </div>
+                            )}
                         <DialogFooter>
                             <Button
                                 type="button"
