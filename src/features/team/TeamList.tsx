@@ -36,8 +36,8 @@ export function TeamList() {
       setDeletingTeam(null);
       toast.success('Squadra eliminata con successo');
     },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Impossibile eliminare la squadra: è già presente in un torneo o si è verificato un errore.');
+    onError: () => {
+      toast.error('Impossibile eliminare una squadra che partecipa in uno o più tornei');
     },
   });
 
