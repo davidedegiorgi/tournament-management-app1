@@ -26,6 +26,7 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
 
 const teamFormSchema = z.object({
     name: z.string().min(1, 'Il nome è obbligatorio').min(3, 'Il nome deve avere almeno 3 caratteri'),
@@ -93,6 +94,7 @@ export function TeamForm({ team, open, onOpenChange }: TeamFormProps) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['teams'] })
             onOpenChange(false)
+            toast.success('Squadra creata con successo');
         },
     })
 
@@ -103,6 +105,7 @@ export function TeamForm({ team, open, onOpenChange }: TeamFormProps) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['teams'] })
             onOpenChange(false)
+            toast.success('Squadra aggiornata con successo');
         },
     })
 

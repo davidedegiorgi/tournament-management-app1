@@ -27,6 +27,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getLogoUrl } from '@/lib/backend'
+import { toast } from 'sonner'
 
 function isPowerOfTwo(n: number): boolean {
     return n > 0 && (n & (n - 1)) === 0
@@ -75,6 +76,7 @@ export function TournamentForm({ open, onOpenChange, onSuccess }: TournamentForm
             onOpenChange(false)
             form.reset()
             onSuccess?.()
+            toast.success('Torneo creato con successo');
         },
     })
 

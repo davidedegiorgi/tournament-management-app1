@@ -34,10 +34,10 @@ export function TeamList() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['teams'] });
       setDeletingTeam(null);
-      toast.success('Team deleted successfully');
+      toast.success('Squadra eliminata con successo');
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to delete team');
+      toast.error(error.message || 'Impossibile eliminare la squadra: è già presente in un torneo o si è verificato un errore.');
     },
   });
 
@@ -129,18 +129,17 @@ export function TeamList() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Sei sicuro?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              team.
+              Questa azione non può essere annullata. La squadra verrà eliminata definitivamente.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Annulla</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deletingTeam && handleDelete(deletingTeam)}
             >
-              Delete
+              Elimina
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
