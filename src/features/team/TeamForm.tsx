@@ -42,7 +42,7 @@ type TeamFormProps = {
 }
 
 export function TeamForm({ team, open, onOpenChange }: TeamFormProps) {
-    const [logoMode, setLogoMode] = useState<'url' | 'file'>('url')
+    // Solo modalità URL per il logo
     const [logoPreview, setLogoPreview] = useState<string>('')
     const queryClient = useQueryClient()
 
@@ -61,31 +61,18 @@ export function TeamForm({ team, open, onOpenChange }: TeamFormProps) {
                     name: team.name,
                     logo: team.logo || '',
                 })
-                setLogoMode('url')
                 setLogoPreview('')
             } else {
                 form.reset({
                     name: '',
                     logo: '',
                 })
-                setLogoMode('url')
                 setLogoPreview('')
             }
         }
     }, [team, open, form])
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                const dataUrl = reader.result as string
-                setLogoPreview(dataUrl)
-                form.setValue('logo', dataUrl)
-            }
-            reader.readAsDataURL(file)
-        }
-    }
+
 
     const { mutate: createTeam, isPending: isCreating } = useMutation({
         mutationFn: (data: CreateTeamData) => {
@@ -160,81 +147,35 @@ export function TeamForm({ team, open, onOpenChange }: TeamFormProps) {
                                 
                                 <div className="space-y-2">
                                     <FormLabel>Logo (opzionale)</FormLabel>
-                                    <Tabs value={logoMode} onValueChange={(v) => setLogoMode(v as 'url' | 'file')}>
-                                        <TabsList className="grid w-full grid-cols-2">
-                                            <TabsTrigger value="url" className={cn(
-                                                "flex items-center gap-2",
-                                                logoMode === 'url' && "bg-gradient-to-r from-[#00C8FF] to-[#0099CC] text-white"
-                                            )}>
-                                                <LinkIcon className="size-4" />
-                                                URL
-                                            </TabsTrigger>
-                                            <TabsTrigger value="file" className={cn(
-                                                "flex items-center gap-2",
-                                                logoMode === 'file' && "bg-gradient-to-r from-[#00C8FF] to-[#0099CC] text-white"
-                                            )}>
-                                                <Upload className="size-4" />
-                                                File
-                                            </TabsTrigger>
-                                        </TabsList>
-                                        
-                                        <TabsContent value="url" className="space-y-2">
-                                            <FormField
-                                                control={form.control}
-                                                name="logo"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormControl>
-                                                            <Input
-                                                                {...field}
-                                                                type="url"
-                                                                placeholder="https://esempio.com/logo.png"
-                                                            />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
+                                    <FormField
+                                        control={form.control}
+                                        name="logo"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        type="url"
+                                                        placeholder="https://esempio.com/logo.png"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    {form.watch('logo') && (
+                                        <div className="mt-2 p-2 border rounded-lg bg-muted/50">
+                                            <p className="text-xs text-muted-foreground mb-2">Anteprima:</p>
+                                            <img
+                                                src={form.watch('logo')}
+                                                alt="Logo preview"
+                                                className="w-16 h-16 object-contain"
+                                                onError={(e) => {
+                                                    e.currentTarget.style.display = 'none'
+                                                }}
                                             />
-                                            {form.watch('logo') && logoMode === 'url' && (
-                                                <div className="mt-2 p-2 border rounded-lg bg-muted/50">
-                                                    <p className="text-xs text-muted-foreground mb-2">Anteprima:</p>
-                                                    <img
-                                                        src={form.watch('logo')}
-                                                        alt="Logo preview"
-                                                        className="w-16 h-16 object-contain"
-                                                        onError={(e) => {
-                                                            e.currentTarget.style.display = 'none'
-                                                        }}
-                                                    />
-                                                </div>
-                                            )}
-                                        </TabsContent>
-                                        
-                                        <TabsContent value="file" className="space-y-2">
-                                            <div className="flex items-center gap-2">
-                                                <Input
-                                                    id="logoFile"
-                                                    type="file"
-                                                    accept="image/png,image/jpeg"
-                                                    onChange={handleFileChange}
-                                                    className="cursor-pointer"
-                                                />
-                                            </div>
-                                            <p className="text-xs text-muted-foreground">
-                                                Formati supportati: PNG, JPEG (max 5MB)
-                                            </p>
-                                            {logoPreview && (
-                                                <div className="mt-2 p-2 border rounded-lg bg-muted/50">
-                                                    <p className="text-xs text-muted-foreground mb-2">Anteprima:</p>
-                                                    <img
-                                                        src={logoPreview}
-                                                        alt="Logo preview"
-                                                        className="w-16 h-16 object-contain"
-                                                    />
-                                                </div>
-                                            )}
-                                        </TabsContent>
-                                    </Tabs>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

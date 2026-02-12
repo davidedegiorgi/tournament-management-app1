@@ -37,9 +37,12 @@ const tournamentFormSchema = z.object({
     name: z.string().min(1, 'Il nome è obbligatorio').min(3, 'Il nome deve avere almeno 3 caratteri'),
     date: z.string().min(1, 'La data è obbligatoria'),
     location: z.string().min(1, 'La location è obbligatoria').min(3, 'La location deve avere almeno 3 caratteri'),
-    teamIds: z.array(z.number()).min(2, 'Seleziona almeno 2 squadre').refine((ids) => isPowerOfTwo(ids.length), {
-        message: 'Il numero di squadre deve essere una potenza di 2 (2, 4, 8, 16, ...)',
-    }),
+    teamIds: z.array(z.number())
+        .min(2, 'Seleziona almeno 2 squadre')
+        .max(16, 'Puoi selezionare al massimo 16 squadre')
+        .refine((ids) => isPowerOfTwo(ids.length), {
+            message: 'Il numero di squadre deve essere una potenza di 2 (2, 4, 8, 16)',
+        }),
 })
 
 type TournamentFormData = z.infer<typeof tournamentFormSchema>
@@ -82,9 +85,16 @@ export function TournamentForm({ open, onOpenChange, onSuccess }: TournamentForm
 
     function handleTeamToggle(teamId: number) {
         const currentTeams = form.getValues('teamIds')
-        const newTeams = currentTeams.includes(teamId)
-            ? currentTeams.filter(id => id !== teamId)
-            : [...currentTeams, teamId]
+        let newTeams
+        if (currentTeams.includes(teamId)) {
+            newTeams = currentTeams.filter(id => id !== teamId)
+        } else {
+            if (currentTeams.length >= 16) {
+                form.setError('teamIds', { type: 'manual', message: 'Puoi selezionare al massimo 16 squadre' })
+                return
+            }
+            newTeams = [...currentTeams, teamId]
+        }
         form.setValue('teamIds', newTeams, { shouldValidate: true })
     }
 
