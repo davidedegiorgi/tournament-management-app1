@@ -22,7 +22,6 @@ export function Dashboard() {
         queryFn: () => TeamService.list(),
     })
 
-    // Assicurati che tournaments e teams siano array
     const tournamentsArray = Array.isArray(tournaments) ? tournaments : []
     const teamsArray = Array.isArray(teams) ? teams : []
 
