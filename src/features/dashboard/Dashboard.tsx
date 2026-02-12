@@ -111,6 +111,7 @@ export function Dashboard() {
                     <CardContent className="p-0">
                         <div className={cn(
                             "divide-y min-h-[200px]",
+                            !isPending && completedTournaments.length > 4 && 'max-h-72 overflow-y-auto',
                             isPending && 'p-4 space-y-3'
                         )}>
                             {isPending && new Array(4).fill('').map((_, i) => (
@@ -174,6 +175,7 @@ export function Dashboard() {
                     <CardContent className="p-0">
                         <div className={cn(
                             "divide-y min-h-[200px]",
+                            !isPending && topWinners.length > 4 && 'max-h-72 overflow-y-auto',
                             isPending && 'p-4 space-y-3'
                         )}>
                             {isPending && new Array(4).fill('').map((_, i) => (
