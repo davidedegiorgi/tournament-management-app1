@@ -89,7 +89,8 @@ export function TournamentList({ onCreate, onSelect }: TournamentListProps) {
                     </div>
                 ) : (
                     <div className={cn(
-                        "grid grid-cols-1 md:grid-cols-2 gap-4 min-h-[200px]",
+                            "grid grid-cols-1 md:grid-cols-2 gap-4 min-h-[200px]",
+                        tournaments.length > 6 && "overflow-x-auto min-w-[900px]",
                         tournaments.length > 0 && "stagger-children"
                     )}>
                         {!tournaments.length && (
